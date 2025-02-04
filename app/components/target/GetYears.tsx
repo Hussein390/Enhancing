@@ -198,13 +198,14 @@ export default function GetYears() {
           </div>
         </div>
         <p className="font-semibold p-1 rounded ">{StoreYearName || "No Fap"}</p>
+        <div className={`${isMonths ? 'flex' : 'hidden'} w-[200px] mx-auto  bg-white absolute top-[230px] z-30 left-[90px] flex-col gap-y-2 border p-2 rounded`}>
+          {months.map(item => (
+
+            <button key={item.id} className="px-2 py-1 rounded text-sm hover:bg-blue-500 bg-slate-300 hover:text-white" onClick={() => GetMonths(item)}>{item.MonthName}</button>
+          ))}
+        </div>
       </div>
 
-      <div className={`${isMonths ? 'flex' : 'hidden'} w-[200px] mx-auto  bg-white absolute top-[230px] z-30 left-[90px] flex-col gap-y-2 border p-2 rounded`}>
-        {months.map(item => (
-          <button key={item.id} className="px-2 py-1 rounded text-sm hover:bg-blue-500 bg-slate-300 hover:text-white" onClick={() => GetMonths(item)}>{item.MonthName}</button>
-        ))}
-      </div>
       <div className="mt-4 grid grid-cols-5 gap-2 text-center">
         {Array.from({ length: days.length }, (_, i) => i + 1).map((item) => {
           const day = days[item - 1]
