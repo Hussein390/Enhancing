@@ -79,10 +79,13 @@ export async function POST(req: NextRequest) {
     });
     revalidatePath('/')
     return NextResponse.json(newYear, { status: 200 });
-  } catch (error: any) {
-    console.error("Error creating year:", error.message, error.stack);
-    return NextResponse.json({ error: "Failed to create year" }, { status: 500 });
-  }
+  } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.error("An unknown error occurred");
+      }
+    }
 }
 
 /// GET
@@ -132,10 +135,13 @@ export async function GET(req: Request) {
     }
     revalidatePath('/')
     return NextResponse.json(years, { status: 200 });
-  } catch (error: any) {
-    console.error("Error fetching years:", error.message);
-    return NextResponse.json({ error: "Failed to fetch years" }, { status: 500 });
-  }
+  } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.error("An unknown error occurred");
+      }
+    }
 }
 
 // PUT
@@ -178,10 +184,13 @@ export async function PUT(req: Request) {
     revalidatePath("/");
 
     return NextResponse.json({ message: "Day updated successfully", updatedDay }, { status: 200 });
-  } catch (error: any) {
-    console.error("Error updating day:", error.message);
-    return NextResponse.json({ error: "Failed to update day" }, { status: 500 });
-  }
+  } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.error("An unknown error occurred");
+      }
+    }
 }
 
 //DELETE
@@ -236,8 +245,11 @@ export async function DELETE(req: Request) {
       revalidatePath("/");
       return NextResponse.json({ message: "Day deleted successfully", yearToDelete }, { status: 200 });
     }
-  } catch (error: any) {
-    console.error("Error updating day:", error.message);
-    return NextResponse.json({ error: "Failed to delete day" }, { status: 500 });
-  }
+  }catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.error("An unknown error occurred");
+      }
+    }
 }
