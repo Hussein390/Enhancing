@@ -61,8 +61,12 @@ export default function GetYears() {
       const data: year = await res.json();
       const month: month | undefined = data.months.find((month: month) => month.id === StoreMonthId);
       setDays(month!.days)
-    } catch (err) {
-      console.log(err)
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.error("An unknown error occurred");
+      }
     }
   }
   async function GetData(name: string) {

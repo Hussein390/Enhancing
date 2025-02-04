@@ -50,9 +50,7 @@ export default function EditTarget() {
     </div>
   )
 }
-// # NEXTAUTH_SECRET = "9yOnOZnlx+WuTxwDZrDS2UbawGjnMfrhWqnAWhupb8Q=" # Added by`npx auth`.Read more: https://cli.authjs.dev
-// # AUTH_GOOGLE_ID = 143546218430 - 0e7fp67308foscj3klmt550hftlvspg8.apps.googleusercontent.com
-// # AUTH_GOOGLE_SECRET = GOCSPX - znBh7wEaloG - NorZ75bDPHUh2S0C
+
 
 import {
   Alert,
