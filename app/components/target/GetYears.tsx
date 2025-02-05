@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Skeleton } from "@/components/ui/skeleton"
 
 import React, { useEffect, useRef, useState } from 'react'
+import { DataYears } from '../provider';
 type year = {
   id: string,
   years: number,
@@ -15,19 +16,15 @@ type month = {
   yearsId: string | null;
   days: [];
 }
-type days = {
-  id: string;
-  postion: number;
-  isTrue: boolean;
-  monthId: string | null;
-}
+
 export default function GetYears() {
   const [years, setYears] = useState<year[] | null>(null);
   const [months, setMonths] = useState<month[]>([]);
   const [isYears, setIsYears] = useState(false);
   const [isMonths, setIsMonths] = useState(false);
+  const { days, setDays } = DataYears();
   //
-  const [days, setDays] = useState<days[]>([]);
+
   const [isBoxOpen, setIsBoxOpen] = useState(Array(days.length).fill(false));
   let sccessed: number = 0;
   let failed: number = 0;
@@ -36,7 +33,7 @@ export default function GetYears() {
   let StoreYear: string | null = null;
   let StoreMonth: string | null = null;
   let StoreYearId: string | null = null;
-  const StoreYearName: string | null = null;
+  let StoreYearName: string | null = null;
   let StoreMonthId: string | null = null;
 
   if (typeof window !== 'undefined') {
@@ -45,6 +42,7 @@ export default function GetYears() {
     StoreYearId = localStorage.getItem('yearId');
     StoreMonthId = localStorage.getItem('monthId');
   }
+  StoreYearName = localStorage.getItem('yearName')
 
   async function GetDataOnload() {
     try {
@@ -59,8 +57,8 @@ export default function GetYears() {
       }
 
       const data: year = await res.json();
-      const month: month | undefined = data.months.find((month: month) => month.id === StoreMonthId);
-      setDays(month!.days)
+      const month: month[] | undefined = data.months.filter((month: month) => month.id === StoreMonthId);
+      setDays(month![0].days)
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -91,7 +89,6 @@ export default function GetYears() {
   useEffect(() => {
     GetDataOnload();
   }, [])
-
 
 
 

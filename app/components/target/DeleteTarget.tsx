@@ -46,11 +46,13 @@ export default function DeleteTarget({ setIsOpen, setErrorMessage, setSuccessMes
         throw new Error(errorData.error || "Something went wrong");
       }
 
-      setSuccessMessage("Your Target deleted successfully")
+      setSuccessMessage(TargetName + " deleted successfully")
       setTargetName("");
 
     } catch (error: unknown) {
+      setErrorMessage('')
       if (error instanceof Error) {
+        setErrorMessage(TargetName + " is not exists")
         console.error(error.message);
       } else {
         console.error("An unknown error occurred");

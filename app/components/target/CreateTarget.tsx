@@ -13,16 +13,23 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
+import { DataYears } from "../provider";
 
 type CreateTargetProps = {
   setIsOpen: (value: string) => void;
   setErrorMessage: (value: string) => void;
   setSuccessMessage: (value: string) => void;
 };
-
+type month = {
+  id: string;
+  MonthName: string;
+  yearsId: string | null;
+  days: [];
+}
 export default function CreateTarget({ setIsOpen, setErrorMessage, setSuccessMessage }: CreateTargetProps) {
 
   const [TargetName, setTargetName] = useState('');
+  const { setDays } = DataYears()
   // 
   const cardRef = useRef<HTMLDivElement>(null);
   const year = new Date().getFullYear();
@@ -51,11 +58,38 @@ export default function CreateTarget({ setIsOpen, setErrorMessage, setSuccessMes
         const errorData = await response.json();
         throw new Error(errorData.error || "Something went wrong");
       }
+      const currentMonth = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(new Date());
+
+
+      try {
+        const res = await fetch(`/api/createTarget?name=${encodeURIComponent(TargetName)}`, {
+          method: 'GET', // No body for GET requests
+          headers: { "Content-Type": "application/json" },
+        });
+
+        if (!res.ok) {
+          console.error("Failed to fetch years:", res.statusText);
+          return;
+        }
+
+        const data = await res.json();
+        const month = await data[0].months.filter((month: month) => month.MonthName === currentMonth);
+        setDays(month[0].days)
+        localStorage.setItem('month', month[0].MonthName)
+        localStorage.setItem('monthId', month[0].id)
+        localStorage.setItem('year', data[0].years);
+        localStorage.setItem('yearId', data[0].id);
+        localStorage.setItem('yearName', data[0].name);
+      } catch (err) {
+        console.log(err)
+      }
 
       setSuccessMessage(TargetName + " created successfully ")
       setTargetName("");
     } catch (error: unknown) {
+      setErrorMessage('');
       if (error instanceof Error) {
+        setErrorMessage("we already have this name: " + TargetName);
         console.error(error.message);
       } else {
         console.error("An unknown error occurred");
