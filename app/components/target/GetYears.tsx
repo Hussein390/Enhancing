@@ -41,8 +41,8 @@ export default function GetYears() {
     StoreMonth = localStorage.getItem('month');
     StoreYearId = localStorage.getItem('yearId');
     StoreMonthId = localStorage.getItem('monthId');
+    StoreYearName = localStorage.getItem('yearName')
   }
-  StoreYearName = localStorage.getItem('yearName')
 
   async function GetDataOnload() {
     try {

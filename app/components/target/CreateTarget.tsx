@@ -89,7 +89,7 @@ export default function CreateTarget({ setIsOpen, setErrorMessage, setSuccessMes
     } catch (error: unknown) {
       setErrorMessage('');
       if (error instanceof Error) {
-        setErrorMessage("we already have this name: " + TargetName);
+        setErrorMessage(error.message);
         console.error(error.message);
       } else {
         console.error("An unknown error occurred");
