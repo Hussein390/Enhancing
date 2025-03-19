@@ -147,7 +147,7 @@ export async function GET(req: Request) {
 // PUT
 export async function PUT(req: Request) {
   try {
-    const { dayId, isTrue } = await req.json();
+    const { dayId, isTrue, postion } = await req.json();
     const session = await auth();
 
     if (!session || !session.user || !session.user.email) {
@@ -177,6 +177,7 @@ export async function PUT(req: Request) {
       },
       data: {
         isTrue,
+        postion,
       },
     });
 

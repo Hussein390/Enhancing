@@ -109,13 +109,14 @@ export default function GetYears() {
   }
 
   /// days
-  async function UpdateDay({ dayId, isTrue }: { dayId: string, isTrue: boolean }) {
+  async function UpdateDay({ dayId, isTrue, postion }: { dayId: string, isTrue: boolean, postion: number }) {
     const res = await fetch("/api/createTarget", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         dayId,
-        isTrue
+        isTrue,
+        postion
       }),
     });
     await res.json()
@@ -125,10 +126,10 @@ export default function GetYears() {
     newIsBoxOpen[index] = !newIsBoxOpen[index];
     setIsBoxOpen(newIsBoxOpen);
   }
-  function getResults(e: string, dayId: string, id: number) {
+  function getResults(e: string, dayId: string, id: number, postion: number) {
     const result = document.getElementById(`${id}`);
-    const GoodDay = { dayId, isTrue: true }
-    const BadDay = { dayId, isTrue: false }
+    const GoodDay = { dayId, isTrue: true, postion }
+    const BadDay = { dayId, isTrue: false, postion }
     if (e === 'm') {
       result!.textContent = 'M';
       result?.classList.remove('text-green-500');
@@ -204,8 +205,8 @@ export default function GetYears() {
       </div>
 
       <div className="mt-4 grid grid-cols-5 gap-2 text-center">
-        {Array.from({ length: days.length }, (_, i) => i + 1).map((item) => {
-          const day = days[item - 1]
+        {Array.from({ length: days.length }, (_, i) => i + 1).map((item, index) => {
+          const day = days[index]
           return (
             < div id={`div-${item}`} key={item} onClick={() => box(item)} className={`${day?.isTrue == true ? 'pointer-events-none' : day?.isTrue == false ? 'pointer-events-none' : ''} cursor-pointer relative`}>
               <h1>{item}</h1>
@@ -213,8 +214,8 @@ export default function GetYears() {
                 {day?.isTrue === true ? 'P' : day?.isTrue === false ? 'M' : ''}
               </button>
               <div className={`${isBoxOpen[item] ? 'flex' : 'hidden'} absolute top-0 left-0 gap-x-1`}>
-                <button className="bg-green-400 text-white text-sm p-1 px-2 rounded" onClick={() => getResults('p', day?.id, item)}>P</button>
-                <button className="bg-red-400 text-white text-sm p-1 px-2 rounded" onClick={() => getResults('m', day?.id, item)}>M</button>
+                <button className="bg-green-400 text-white text-sm p-1 px-2 rounded" onClick={() => getResults('p', day?.id, item, index)}>P</button>
+                <button className="bg-red-400 text-white text-sm p-1 px-2 rounded" onClick={() => getResults('m', day?.id, item, index)}>M</button>
               </div>
             </div>
           )
