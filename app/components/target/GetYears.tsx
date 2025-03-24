@@ -206,7 +206,7 @@ export default function GetYears() {
 
       <div className="mt-4 grid grid-cols-5 gap-2 text-center">
         {Array.from({ length: days.length }, (_, i) => i + 1).map((item, index) => {
-          const day = days[index]
+          const day = days.find(item => item.postion === index);
           return (
             < div id={`div-${item}`} key={item} onClick={() => box(item)} className={`${day?.isTrue == true ? 'pointer-events-none' : day?.isTrue == false ? 'pointer-events-none' : ''} cursor-pointer relative`}>
               <h1>{item}</h1>
@@ -214,8 +214,8 @@ export default function GetYears() {
                 {day?.isTrue === true ? 'P' : day?.isTrue === false ? 'M' : ''}
               </button>
               <div className={`${isBoxOpen[item] ? 'flex' : 'hidden'} absolute top-0 left-0 gap-x-1`}>
-                <button className="bg-green-400 text-white text-sm p-1 px-2 rounded" onClick={() => getResults('p', day?.id, item, index)}>P</button>
-                <button className="bg-red-400 text-white text-sm p-1 px-2 rounded" onClick={() => getResults('m', day?.id, item, index)}>M</button>
+                <button className="bg-green-400 text-white text-sm p-1 px-2 rounded" onClick={() => getResults('p', day!.id, item, index)}>P</button>
+                <button className="bg-red-400 text-white text-sm p-1 px-2 rounded" onClick={() => getResults('m', day!.id, item, index)}>M</button>
               </div>
             </div>
           )
