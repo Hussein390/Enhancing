@@ -215,34 +215,45 @@ export default function GetYears() {
 
       <div className="mt-4 grid grid-cols-5 gap-2 text-center">
         {days.map((item, index) => {
-          const day = days.find(day => day.postion === index);
-          console.log(item)
+          const adjustedIndex = index + 1;  // Start from 1 instead of 0
+          const day = days.find(day => day.postion === adjustedIndex);
+
           return (
-            <div id={`div-${index}`} key={item.id} onClick={() => box(index)}
-              className={`${day?.isTrue == true || day?.isTrue === false ? 'pointer-events-none' : ''} cursor-pointer relative`}>
+            <div
+              id={`div-${adjustedIndex}`}
+              key={item.id}
+              onClick={() => box(index)}
+              className={`${day?.isTrue === true || day?.isTrue === false ? 'pointer-events-none' : ''} cursor-pointer relative`}
+            >
+              <h1>{adjustedIndex}</h1> {/* Display starts from 1 */}
 
-              <h1>{index}</h1>
-
-              <button id={`${index}`} className={`${day?.isTrue ? 'text-green-500' : 'text-red-500'} border bg-transparent size-8 border-black`}>
+              <button
+                id={`${adjustedIndex}`}
+                className={`${day?.isTrue ? 'text-green-500' : 'text-red-500'} border bg-transparent size-8 border-black`}
+              >
                 {item.isTrue === true ? 'P' : item.isTrue === false ? 'M' : ''}
               </button>
 
               <div className={`${isBoxOpen[index] ? 'flex' : 'hidden'} absolute top-0 left-0 gap-x-1`}>
-                <button className="bg-green-400 text-white text-sm p-1 px-2 rounded"
-                  onClick={() => getResults('p', item.id || '', index)}>P
+                <button
+                  className="bg-green-400 text-white text-sm p-1 px-2 rounded"
+                  onClick={() => getResults('p', item.id || '', adjustedIndex)}
+                >
+                  P
                 </button>
 
-                <button className="bg-red-400 text-white text-sm p-1 px-2 rounded"
-                  onClick={() => getResults('m', item.id || '', index)}>M
+                <button
+                  className="bg-red-400 text-white text-sm p-1 px-2 rounded"
+                  onClick={() => getResults('m', item.id || '', adjustedIndex)}
+                >
+                  M
                 </button>
               </div>
-
             </div>
           );
         })}
-
-
       </div>
+
     </div>
   )
 }
