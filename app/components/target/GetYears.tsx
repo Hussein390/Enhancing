@@ -231,7 +231,7 @@ export default function GetYears() {
                 id={`${adjustedIndex}`}
                 className={`${day?.isTrue ? 'text-green-500' : 'text-red-500'} border bg-transparent size-8 border-black`}
               >
-                {item.isTrue === true ? 'P' : item.isTrue === false ? 'M' : ''}
+                {day?.isTrue === true ? 'P' : day?.isTrue === false ? 'M' : ''}
               </button>
 
               <div className={`${isBoxOpen[index] ? 'flex' : 'hidden'} absolute top-0 left-0 gap-x-1`}>
